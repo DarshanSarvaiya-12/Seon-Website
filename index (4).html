@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hyun | Vibrant Apparel</title>
+    <style>
+        /* --- NEW COLOURFUL CSS STYLES --- */
+        :root {
+            /* A vibrant Teal for primary actions and headers */
+            --primary: #009688; 
+            --primary-dark: #00796b;
+            /* A bright Orange for accents and buttons */
+            --accent: #ff6b35;
+            --accent-hover: #e85a25;
+            /* A clean, slightly cool background */
+            --bg: #f4f9fc;
+            --white: #ffffff;
+            --text-dark: #2c3e50;
+            --text-light: #7f8c8d;
+            /* A softer, slightly colored shadow */
+            --shadow: 0 8px 15px rgba(0, 150, 136, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-dark);
+            padding-bottom: 50px;
+            background-image: linear-gradient(to bottom, #e0f2f1, #f4f9fc); /* Subtle background gradient */
+        }
+
+        /* Navbar */
+        header {
+            background: var(--white);
+            padding: 15px 30px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid var(--primary);
+        }
+
+        .logo {
+            font-family: 'Brush Script MT', cursive; /* More playful font */
+            font-size: 2.2rem;
+            color: var(--primary);
+            text-decoration: none;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+            font-size: 1.8rem;
+            color: var(--primary);
+            transition: transform 0.2s;
+        }
+        .cart-icon:hover { transform: scale(1.1); }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -12px;
+            background-color: var(--accent);
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        /* Hero Section - Vibrant Gradient */
+        .hero {
+            /* Vibrant Teal to Blue Gradient */
+            background: linear-gradient(135deg, var(--primary) 0%, #00bcd4 100%);
+            color: white;
+            text-align: center;
+            padding: 60px 20px;
+            margin-bottom: 40px;
+            border-radius: 0 0 30% 30% / 20px; /* Subtle curve at bottom */
+            box-shadow: var(--shadow);
+        }
+
+        .hero h1 { font-size: 2.5rem; margin-bottom: 15px; text-shadow: 1px 1px 3px rgba(0,0,0,0.2); }
+        .hero p { color: #e0f7fa; font-size: 1.2rem; }
+
+        /* Filter Section */
+        .filters {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 0 10px;
+        }
+
+        .filter-btn {
+            background: var(--white);
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 10px 24px;
+            margin: 5px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover { background: #e0f2f1; }
+
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 10px rgba(0, 150, 136, 0.3);
+        }
+
+        /* Product Grid */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 30px;
+        }
+
+        /* Product Card - Pop-out style */
+        .product-card {
+            background: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #eee;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 20px rgba(0, 150, 136, 0.2);
+        }
+
+        .product-image-container {
+            height: 300px;
+            overflow: hidden;
+            background-color: #e0f2f1;
+            position: relative;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top center;
+            transition: transform 0.5s ease;
+        }
+        
+        .product-card:hover .product-image {
+            transform: scale(1.05); /* Slight zoom on hover */
+        }
+
+        /* Placeholder style if image fails */
+        .img-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: #eceff1;
+            color: #90a4ae;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .product-info {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .product-category {
+            color: var(--text-light);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .product-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+        }
+
+        .product-price {
+            color: var(--accent);
+            font-weight: 900;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+        }
+
+        .add-btn {
+            margin-top: auto;
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            border-radius: 30px; /* Rounded buttons */
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: background 0.3s, transform 0.1s;
+            box-shadow: 0 4px 6px rgba(255, 107, 53, 0.3);
+        }
+
+        .add-btn:hover {
+            background-color: var(--accent-hover);
+        }
+        .add-btn:active { transform: scale(0.98); }
+
+        /* Cart Sidebar (Colorful header) */
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 380px;
+            height: 100%;
+            background: var(--white);
+            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+            transition: right 0.3s cubic-bezier(0.77, 0.2, 0.05, 1.0);
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            max-width: 90vw;
+        }
+
+        .cart-sidebar.open { right: 0; }
+
+        .cart-header {
+            padding: 25px;
+            background: linear-gradient(to right, var(--primary), var(--primary-dark));
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-header h3 { font-size: 1.5rem; }
+        .close-cart { cursor: pointer; font-size: 2rem; transition: color 0.2s; }
+        .close-cart:hover { color: var(--accent); }
+
+        .cart-items {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 25px;
+            background: #fafafa;
+        }
+
+        .cart-item {
+            display: flex;
+            margin-bottom: 20px;
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .cart-item img, .cart-item-placeholder {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-right: 15px;
+            background: #eee;
+        }
+
+        .cart-item-details { flex-grow: 1; }
+        .cart-item-title { font-size: 1rem; font-weight: bold; color: var(--text-dark); }
+        .cart-item-price { color: var(--primary); font-weight: bold; }
+
+        .remove-btn {
+            color: var(--accent);
+            cursor: pointer;
+            font-size: 0.9rem;
+            border: none;
+            background: none;
+            margin-top: 5px;
+            font-weight: 600;
+        }
+
+        .cart-footer {
+            padding: 25px;
+            background: var(--white);
+            border-top: 2px solid #eee;
+        }
+
+        .total-price {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+        }
+
+        .checkout-btn {
+            background: linear-gradient(to right, var(--accent), var(--accent-hover));
+            color: white;
+            border: none;
+            padding: 18px;
+            width: 100%;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: opacity 0.3s;
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
+        }
+        .checkout-btn:hover { opacity: 0.9; }
+
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(44, 62, 80, 0.6); /* Darker, bluer overlay */
+            z-index: 150;
+            display: none;
+            backdrop-filter: blur(3px); /* Modern blur effect */
+        }
+        .overlay.active { display: block; }
+
+        /* Responsive Tweaks */
+        @media (max-width: 600px) {
+            .product-grid { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 2rem; }
+            header { padding: 15px 20px; }
+            .logo { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="#" class="logo">Hyun.</a>
+        <div class="cart-icon" onclick="toggleCart()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+            <span class="cart-count" id="cartCount">0</span>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>Express Your Color</h1>
+        <p>Premium tees meant to stand out. Find your vibe.</p>
+    </section>
+
+    <div class="filters">
+        <button class="filter-btn active" onclick="filterProducts('all')">Show All</button>
+        <button class="filter-btn" onclick="filterProducts('large')">Bold & Large</button>
+        <button class="filter-btn" onclick="filterProducts('small')">Subtle & Small</button>
+    </div>
+
+    <div class="container">
+        <div class="product-grid" id="productGrid">
+            </div>
+    </div>
+
+    <div class="overlay" id="overlay" onclick="toggleCart()"></div>
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Your Shopping Bag</h3>
+            <span class="close-cart" onclick="toggleCart()">&times;</span>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <div style="text-align:center; color:#999; margin-top: 50px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:10px; opacity: 0.5;"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                <p>Your bag is empty.</p>
+            </div>
+        </div>
+        <div class="cart-footer">
+            <div class="total-price">
+                <span>Total:</span>
+                <span id="cartTotal">$0.00</span>
+            </div>
+            <button class="checkout-btn" onclick="checkout()">Secure Checkout</button>
+        </div>
+    </div>
+
+    <script>
+        /* --- JAVASCRIPT LOGIC --- */
+
+        // Product Data (Exact filenames provided by user)
+        const products = [
+            { id: 1, name: "Hyun Black - Bold", price: 34.99, category: "large", img: "Hyun_20251109_122516_0000.png" },
+            { id: 2, name: "Hyun Maroon - Bold", price: 34.99, category: "large", img: "Hyun_20251109_115558_0000.png" },
+            { id: 3, name: "Hyun Olive - Subtle", price: 29.99, category: "small", img: "Hyun_20251109_120219_0000.png" },
+            { id: 4, name: "Hyun Navy - Subtle", price: 29.99, category: "small", img: "Hyun_20251109_130309_0000.png" },
+            { id: 5, name: "Hyun Olive - Bold", price: 34.99, category: "large", img: "Hyun_20251109_121218_0000.png" },
+            // Note: This filename has spaces in it, which is okay, but ensure it matches exactly on disk.
+            { id: 6, name: "Hyun Charcoal - Subtle", price: 29.99, category: "small", img: "Your paragraph text_20251109_131045_0000.png" },
+            { id: 7, name: "Hyun White - Subtle", price: 29.99, category: "small", img: "Hyun_20251109_131751_0000.png" },
+            { id: 8, name: "Hyun Charcoal - Bold", price: 34.99, category: "large", img: "Hyun_20251109_130811_0000.png" },
+            { id: 9, name: "Hyun Navy - Bold", price: 34.99, category: "large", img: "Hyun_20251109_130002_0000.png" },
+            { id: 10, name: "Hyun Black - Subtle", price: 29.99, category: "small", img: "Hyun_20251109_125134_0000.png" }
+        ];
+
+        let cart = [];
+
+        // DOM Elements
+        const grid = document.getElementById('productGrid');
+        const cartSidebar = document.getElementById('cartSidebar');
+        const overlay = document.getElementById('overlay');
+        const cartCountEl = document.getElementById('cartCount');
+        const cartItemsEl = document.getElementById('cartItems');
+        const cartTotalEl = document.getElementById('cartTotal');
+
+        // Helper function for image error handling
+        function imageOnError(element) {
+            element.style.display = 'none';
+            element.nextElementSibling.style.display = 'flex'; // Show placeholder
+        }
+
+        // Render Products
+        function renderProducts(filter = 'all') {
+            grid.innerHTML = '';
+            products.forEach(product => {
+                if (filter === 'all' || product.category === filter) {
+                    const card = document.createElement('div');
+                    card.className = 'product-card';
+                    
+                    // Added a placeholder div that shows if the image fails to load
+                    card.innerHTML = `
+                        <div class="product-image-container">
+                            <img src="${product.img}" alt="${product.name}" class="product-image" onerror="imageOnError(this)">
+                            <div class="img-placeholder" style="display:none;">
+                                <span>Image Not Found<br><small>Check folder structure</small></span>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-category">${product.category === 'large' ? 'Bold Collection' : 'Subtle Collection'}</div>
+                            <div class="product-title">${product.name}</div>
+                            <div class="product-price">$${product.price.toFixed(2)}</div>
+                            <button class="add-btn" onclick="addToCart(${product.id})">Add to Bag</button>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                }
+            });
+        }
+
+        // Filter Logic
+        function filterProducts(category) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            renderProducts(category);
+        }
+
+        // Cart Functions
+        function toggleCart() {
+            cartSidebar.classList.toggle('open');
+            overlay.classList.toggle('active');
+        }
+
+        function addToCart(id) {
+            const product = products.find(p => p.id === id);
+            cart.push(product);
+            updateCartUI();
+            toggleCart(); 
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            cartCountEl.textContent = cart.length;
+            
+            if (cart.length === 0) {
+                cartItemsEl.innerHTML = `
+                    <div style="text-align:center; color:#999; margin-top: 50px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:10px; opacity: 0.5;"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                        <p>Your bag is empty.</p>
+                    </div>`;
+                cartTotalEl.textContent = '$0.00';
+            } else {
+                cartItemsEl.innerHTML = '';
+                let total = 0;
+                cart.forEach((item, index) => {
+                    total += item.price;
+                    const itemEl = document.createElement('div');
+                    itemEl.className = 'cart-item';
+                    // Added fallback for cart images too
+                    itemEl.innerHTML = `
+                        <img src="${item.img}" alt="${item.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                        <div class="cart-item-placeholder" style="display:none;background:#eee;width:70px;height:70px;border-radius:8px;margin-right:15px;"></div>
+                        <div class="cart-item-details">
+                            <div class="cart-item-title">${item.name}</div>
+                            <div class="cart-item-price">$${item.price.toFixed(2)}</div>
+                            <button class="remove-btn" onclick="removeFromCart(${index})">Remove</button>
+                        </div>
+                    `;
+                    cartItemsEl.appendChild(itemEl);
+                });
+                cartTotalEl.textContent = '$' + total.toFixed(2);
+            }
+        }
+
+        function checkout() {
+            if(cart.length === 0) {
+                alert("Your bag is empty!");
+            } else {
+                alert(`Proceeding to checkout with total: ${cartTotalEl.textContent} \n(Demo Only)`);
+                cart = [];
+                updateCartUI();
+                toggleCart();
+            }
+        }
+
+        // Initialize
+        renderProducts();
+
+    </script>
+</body>
+</html>
